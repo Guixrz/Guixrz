@@ -100,7 +100,7 @@
 <h3 align="center">Recent activity</h3>
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/Guixrz/Guixrz/chess-output/chess.svg" alt="Xadrez feito com minhas contribuições recentes" width="100%" />
+  <img src="https://raw.githubusercontent.com/Guixrz/Guixrz/chess-output/chess.svg?v2" alt="Xadrez feito com minhas contribuições recentes" width="100%" />
 </div>
 
 <!-- computer -->
