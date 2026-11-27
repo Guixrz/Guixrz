@@ -103,7 +103,7 @@
   <img src="https://raw.githubusercontent.com/Guixrz/Guixrz/chess-output/chess.svg" alt="Xadrez feito com minhas contribuições recentes" width="100%" />
 </div>
 
-<!-- arvore sakura -->
+<!-- computer -->
 <div align="center">
-  <img src="./assets/sakura.jpeg" alt="Sakura" width="100%" />
+  <img src="./assets/computer.jpeg" alt="computer" width="100%" />
 </div>

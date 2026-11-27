@@ -8,7 +8,7 @@ Uso:
   GITHUB_USER=seu_usuario GITHUB_TOKEN=xxx python scripts/generate_chess.py
   python scripts/generate_chess.py --frame 22.3 teste.svg   (imagem estática de um instante, p/ testes)
 """
-import os, sys, json, math, random, urllib.request
+import os, sys, json, math, random, urllib.request, datetime
 
 # ---------------------------------------------------------------- layout
 W, H = 840, 260
@@ -22,6 +22,7 @@ MID0 = 22                     # primeira coluna (de 0..51) que vira tabuleiro
 S0 = CELL / SQ                # escala do quadrado quando ainda é "quadradinho"
 LV = ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353']   # tema escuro do GitHub
 LIGHT, DARK = '#a7d8a0', '#2e7d46'
+MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']  # troque por 'Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez' se quiser em português
 
 # ---------------------------------------------------------------- dados
 def fetch_levels(user, token):
@@ -29,7 +30,7 @@ def fetch_levels(user, token):
     counts = None
     try:
         q = ('query($l:String!){user(login:$l){contributionsCollection{contributionCalendar'
-             '{weeks{contributionDays{contributionCount weekday}}}}}}')
+             '{weeks{firstDay contributionDays{contributionCount weekday}}}}}}')
         req = urllib.request.Request(
             'https://api.github.com/graphql',
             data=json.dumps({'query': q, 'variables': {'l': user}}).encode(),
@@ -38,16 +39,26 @@ def fetch_levels(user, token):
         weeks = json.load(urllib.request.urlopen(req, timeout=30))['data']['user'][
             'contributionsCollection']['contributionCalendar']['weeks'][-COLS:]
         counts = [[0] * 7 for _ in range(COLS)]
+        starts = [None] * COLS
         off = COLS - len(weeks)
         for wi, w in enumerate(weeks):
+            starts[off + wi] = datetime.date.fromisoformat(w['firstDay'])
             for d in w['contributionDays']:
                 counts[off + wi][d['weekday']] = d['contributionCount']
     except Exception as e:
         print('Aviso: não consegui ler as contribuições, usando dados de exemplo:', e)
         rnd = random.Random(3)
         counts = [[rnd.choice([0, 0, 0, 1, 2, 3, 5, 8]) for _ in range(7)] for _ in range(COLS)]
+        starts = [None] * COLS
+    # datas de início de cada semana (para os nomes dos meses)
+    today = datetime.date.today()
+    last = today - datetime.timedelta(days=(today.weekday() + 1) % 7)   # domingo desta semana
+    for c in range(COLS):
+        if starts[c] is None:
+            starts[c] = last - datetime.timedelta(weeks=COLS - 1 - c)
     mx = max(1, max(max(c) for c in counts))
-    return [[0 if c == 0 else min(4, math.ceil(c / mx * 4)) for c in col] for col in counts]
+    levels = [[0 if c == 0 else min(4, math.ceil(c / mx * 4)) for c in col] for col in counts]
+    return levels, starts
 
 # ---------------------------------------------------------------- peças
 def glyph(kind, white):
@@ -74,7 +85,7 @@ pieces_def = [
  # brancas
  ('wQ','Q',1,(2,2),[(12.0,13.0,(0,0))],(15.15,15.4)),     # Dc6 -> a8+!!  (capturada pelo rei)
  ('wK','K',1,(1,7),[],None),
- ('wN','N',1,(3,3),[(16.4,17.4,(1,2)),(20.4,21.4,(3,0))],None),  # Cxb6+ , Cd7#
+ ('wN','N',1,(3,3),[(16.4,17.4,(1,2)),(20.4,21.4,(3,1))],None),  # Cxb6+ , Cd7#  (d7 = coluna 3, linha 1)
  ('wB','B',1,(6,6),[],None),
  ('wR','R',1,(7,7),[],None),
  ('wp1','P',1,(0,6),[],None), ('wp2','P',1,(1,6),[],None),
@@ -127,7 +138,7 @@ def op_keys(spans, fade=0.15):
     return k + [(T, {'o': 0})]
 
 # ---------------------------------------------------------------- construção
-def build(levels, frame=None):
+def build(levels, starts, frame=None):
     static = frame is not None
     css, body = [], []
     A = lambda name, keys, cssfn, extra='': css.append(keyframes(name, keys, cssfn) + f'.{name}{{animation:{name} {T}s infinite ease-in-out;{extra}}}')
@@ -148,7 +159,25 @@ def build(levels, frame=None):
                 if not static: cls = f' class="ch{i}"'
             body.append(f'<rect{cls} x="{x:.1f}" y="{y:.1f}" width="{CELL}" height="{CELL}" rx="2" fill="{LV[levels[c][r]]}"{op}/>')
 
-    # --- tabuleiro (cada quadrado nasce de um quadradinho do meio)
+    # --- nomes dos meses
+    last_col, prev_m = -10, None
+    for c in range(COLS):
+        m = starts[c].month
+        if m != prev_m and c - last_col >= 3:
+            x = GX + c * PITCH
+            mid = MID0 <= c < MID0 + 8
+            cls, op = '', ''
+            if mid and static:
+                d = (c - MID0) * 0.06
+                kk = [(0, {'o': 1}), (TA + d - .02, {'o': 1}), (TA + d, {'o': 0}), (TR + 1.6 + d, {'o': 0}), (TR + 1.62 + d, {'o': 1}), (T, {'o': 1})]
+                op = f' opacity="{val(kk, frame)["o"]:.2f}"'
+            elif mid:
+                cls = f' class="ch{c - MID0}"'
+            body.append(f'<text{cls} x="{x:.1f}" y="{GY - 8:.1f}" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="10" fill="#8b949e"{op}>{MONTHS[m - 1]}</text>')
+            last_col = c
+        prev_m = m
+
+    # --- tabuleiro
     for j in range(8):
         for i in range(8):
             x, y = sq(i, j); cr = min(j, 6)
@@ -201,7 +230,7 @@ def build(levels, frame=None):
             A(pid + 'i', scl, lambda p: f'transform:scale({p["s"]:.3f})', 'transform-box:fill-box;transform-origin:50% 50%;')
             body.append(f'<g class="{pid}o"><g class="{pid}i"><rect width="{SQ}" height="{SQ}" fill="none"/>{g}</g></g>')
 
-    # --- selo "!!" (lance brilhante)
+    # --- selo "!!"
     bx, by = BX + SQ - 3, BY + 3
     keys = op_keys([BADGE + (1,)])
     badge = (f'<circle cx="{bx}" cy="{by}" r="7.5" fill="#26c6b0"/>'
@@ -233,13 +262,12 @@ def build(levels, frame=None):
     return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="100%" role="img" '
             f'aria-label="Xadrez feito com as contribuições recentes">{style}{"".join(body)}</svg>')
 
-# ---------------------------------------------------------------- main
 if __name__ == '__main__':
     args = sys.argv[1:]
     frame = None
     if args[:1] == ['--frame']: frame, args = float(args[1]), args[2:]
     out = args[0] if args else 'dist/chess.svg'
-    levels = fetch_levels(os.environ.get('GITHUB_USER', ''), os.environ.get('GITHUB_TOKEN', ''))
+    levels, starts = fetch_levels(os.environ.get('GITHUB_USER', ''), os.environ.get('GITHUB_TOKEN', ''))
     os.makedirs(os.path.dirname(out) or '.', exist_ok=True)
-    open(out, 'w', encoding='utf-8').write(build(levels, frame))
+    open(out, 'w', encoding='utf-8').write(build(levels, starts, frame))
     print('gerado:', out)
