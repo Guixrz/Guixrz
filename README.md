@@ -36,33 +36,33 @@
 <!-- linguagens e ferramentas -->
 <h3 align="center">Languages & tools I use</h3>
 
-<table align="center" width="100%" border="0">
+<table align="center" width="100%">
   <tr>
-    <td width="55%" align="center" valign="middle">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" height="30" alt="python logo" />
+    <td width="40%" align="center" valign="middle">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" height="32" alt="python" />
       <img width="12" />
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg" height="30" alt="pytorch logo" />
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg" height="32" alt="pytorch" />
       <img width="12" />
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" height="30" alt="java logo" />
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" height="32" alt="java" />
       <img width="12" />
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" height="30" alt="spring logo" />
-      <img width="12" />
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" height="30" alt="figma logo" />
-      <img width="12" />
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/godot/godot-original.svg" height="30" alt="godot logo" />
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" height="32" alt="spring" />
       <br /><br />
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" height="30" alt="html5 logo" />
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" height="32" alt="figma" />
       <img width="12" />
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" height="30" alt="css logo" />
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/godot/godot-original.svg" height="32" alt="godot" />
       <img width="12" />
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="30" alt="javascript logo" />
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" height="32" alt="html5" />
       <img width="12" />
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" height="30" alt="docker logo" />
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" height="32" alt="css" />
+      <br /><br />
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="32" alt="javascript" />
       <img width="12" />
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg" height="30" alt="jupyter logo" />
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" height="32" alt="docker" />
+      <img width="12" />
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg" height="32" alt="jupyter" />
     </td>
-    <td width="45%" align="center" valign="middle">
-      <img src="https://raw.githubusercontent.com/Guixrz/Guixrz/languages-output/languages.svg" alt="languages graph" width="320" />
+    <td width="40%" align="center" valign="middle">
+      <img src="https://raw.githubusercontent.com/Guixrz/Guixrz/languages-output/languages.svg" alt="languages graph" width="100%" />
     </td>
   </tr>
 </table>
@@ -73,14 +73,14 @@
 <table align="center" width="100%" border="0">
   <tr>
     <td width="50%" valign="top">
-      <h4><a href="https://github.com/Guixrz/studies-gsap.js">📁 REPOSITORIO_1</a></h4>
-      <p>Descrição curta do primeiro repositório: o que ele faz e qual problema resolve.</p>
-      <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square" alt="linguagem" />
+      <h4><a href="https://github.com/Guixrz/studies-gsap.js">
+            <img src="https://github-readme-stats.vercel.app/api/pin/?username=Guixrz&repo=studies-gsap.js&theme=gotham" alt="studies-gsap.js" width="100%" />
+          </a>
     </td>
     <td width="50%" valign="top">
-      <h4><a href="https://github.com/Guixrz/Sistema-Gerenciamento-Extensao/tree/lp2-entrega-3">📁 REPOSITORIO_2</a></h4>
-      <p>Descrição curta do segundo repositório: o que ele faz e qual problema resolve.</p>
-      <img src="https://img.shields.io/badge/Java-ED8B00?style=flat-square" alt="linguagem" />
+      <h4><a href="https://github.com/Guixrz/Sistema-Gerenciamento-Extensao">
+            <img src="https://github-readme-stats.vercel.app/api/pin/?username=Guixrz&repo=Sistema-Gerenciamento-Extensao&theme=gotham" alt="Sistema-Gerenciamento-Extensao" width="100%" />
+          </a>
     </td>
   </tr>
 </table>
@@ -95,6 +95,13 @@
   <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5" />
   <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3" />
 </p>
+
+<!-- xadrez -->
+<h3 align="center">Recent activity</h3>
+
+<div align="center">
+  <img src="https://raw.githubusercontent.com/Guixrz/Guixrz/chess-output/chess.svg" alt="Xadrez feito com minhas contribuições recentes" width="100%" />
+</div>
 
 <!-- arvore sakura -->
 <div align="center">
